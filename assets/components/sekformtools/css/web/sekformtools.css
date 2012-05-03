@@ -1,0 +1,28 @@
+
+.input-prompt {
+    width: 300px;
+    position: absolute;
+    font-style: italic;
+    color: #aaa;
+    margin: 0; padding: 0.38em 0 0.37em 0.45em;
+}
+.ui-widget { font-size: .75em; }
+.ui-button { margin-left: -1px; }
+.ui-button-icon-only .ui-button-text { padding: 0.32em; }
+
+.ui-widget-content { margin: 0; padding: 0.38em 0 0.37em 0.45em; }
+.ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
+.ui-autocomplete {
+    max-height: 350px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+}
+/* IE 6 doesn't support max-height
+     * we use height instead, but this forces the menu to always be this tall
+     */
+* html .ui-autocomplete {
+    height: 100px;
+}

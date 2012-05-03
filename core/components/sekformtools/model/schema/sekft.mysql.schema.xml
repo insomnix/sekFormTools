@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<model package="sekformtools" baseClass="xPDOSimpleObject" platform="mysql" defaultEngine="MyISAM">
+
+    <!-- Countries -->
+    <object class="sekftCountries" table="sekft_countries" extends="xPDOSimpleObject">
+        <field key="country_name" dbtype="varchar" precision="100" phptype="string" null="false" index="unique" default="" />
+        <field key="isoa_two" dbtype="varchar" precision="2" phptype="string" null="false" index="unique" default=""/>
+        <field key="isoa_three" dbtype="varchar" precision="3" phptype="string" null="false" index="unique" default=""/>
+        <field key="iso_number" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="unique" default="0" />
+
+        <composite alias="sekftStates" class="sekftStates" local="id" foreign="country_id" cardinality="many" owner="local" />
+    </object>
+
+    <!-- States -->
+    <object class="sekftStates" table="sekft_states" extends="xPDOSimpleObject">
+        <field key="state_abbr" dbtype="varchar" precision="2" phptype="string" null="false" default="" index="unique" indexgrp="statecountry"/>
+        <field key="state_name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
+        <field key="country_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="unique" indexgrp="statecountry"/>
+
+        <index alias="statecountry" name="statecountry" primary="false" unique="true">
+            <column key="state_abbr" collation="A" null="false" />
+            <column key="country_id" collation="A" null="false" />
+        </index>
+        <composite alias="sekftUSCities" class="sekftUSCities" local="id" foreign="state_id" cardinality="many" owner="local" />
+        <aggregate alias="sekftCountries" class="sekftCountries" local="country_id" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+
+    <!-- United States - City Zip Cross Reference -->
+    <object class="sekftUSCityZipXref" table="sekft_uscityzipxref" extends="xPDOObject">
+        <field key="zip_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="pk" indexgrp="PRIMARY" />
+        <field key="city_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="pk" indexgrp="PRIMARY" />
+
+        <index alias="PRIMARY" name="PRIMARY" primary="true" unique="true">
+            <column key="zip_id" collation="A" null="false" />
+            <column key="city_id" collation="A" null="false" />
+        </index>
+        <aggregate alias="sekftUSZipCodes" class="sekftUSZipCodes" local="zip_id" foreign="zip_code" cardinality="one" owner="foreign"/>
+        <aggregate alias="sekftUSCities" class="sekftUSCities" local="city_id" foreign="id" cardinality="one" owner="foreign"/>
+    </object>
+
+    <!-- United States - Zip Codes -->
+    <object class="sekftUSZipCodes" table="sekft_uszipcodes" extends="xPDOObject">
+        <field key="zip_code" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="pk" />
+        <field key="zip_lat" dbtype="decimal" precision="5,2" phptype="float" null="true" default="0.0000" />
+        <field key="zip_long" dbtype="decimal" precision="5,2" phptype="float" null="true" default="0.0000" />
+
+        <index alias="PRIMARY" name="PRIMARY" primary="true" unique="true">
+            <column key="zip_code" collation="A" null="false" />
+        </index>
+        <composite alias="sekftUSCityZipXref" class="sekftUSCityZipXref" local="zip_code" foreign="zip_id" cardinality="many" owner="local" />
+    </object>
+
+    <!-- United States - Cities -->
+    <object class="sekftUSCities" table="sekft_uscities" extends="xPDOSimpleObject">
+        <field key="city_name" dbtype="varchar" precision="100" phptype="string" null="false" default="" index="unique" indexgrp="citystate" />
+        <field key="state_id" dbtype="int" attributes="unsigned" precision="10" phptype="integer" null="false" default="0" index="unique" indexgrp="citystate" />
+
+        <index alias="citystate" name="citystate" primary="false" unique="true">
+            <column key="city_name" collation="A" null="false" />
+            <column key="state_id" collation="A" null="false" />
+        </index>
+        <composite alias="sekftUSCityZipXref" class="sekftUSCityZipXref" local="id" foreign="city_id" cardinality="many" owner="local" />
+        <aggregate alias="sekftStates" class="sekftStates" local="state_id" foreign="id" cardinality="one" owner="foreign"/>
+    </object>
+
+</model>
