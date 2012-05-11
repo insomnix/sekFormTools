@@ -26,7 +26,7 @@ set_time_limit(0);
 /* define package names */
 define('PKG_NAME','sekFormTools');
 define('PKG_NAME_LOWER','sekformtools');
-define('PKG_VERSION','0.0.1');
+define('PKG_VERSION','0.0.2');
 define('PKG_RELEASE','BETA');
  
 /* define build paths */

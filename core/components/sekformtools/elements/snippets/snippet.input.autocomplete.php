@@ -34,6 +34,7 @@ $sekformtools->loadSettings(
     ,$modx->getOption('theme',$scriptProperties,'')
     ,$modx->getOption('customcss',$scriptProperties,''));
 
+$object = $modx->getOption('object',$scriptProperties,'');
 $filter = $modx->getOption('filter',$scriptProperties,'');
 $min_length = $modx->getOption('min_length',$scriptProperties,'2');
 $max_rows = $modx->getOption('max_rows',$scriptProperties,'15');
@@ -78,9 +79,13 @@ $selected_action = '';
     }'; */
 
 $js_filter = '';
-if ( $fltname > '' && $fltfield > '' && $fltinputid > ''){
+if ( $fltname > '' ){
     $js_filter .= 'fltname: "'.$fltname.'",';
+}
+if ( $fltfield > '' ){
     $js_filter .= 'fltfield: "'.$fltfield.'",';
+}
+if ( $fltinputid > ''){
     $js_filter .= 'fltvalue: $("#'.$fltinputid.'").val(),';
 }
 
@@ -104,7 +109,6 @@ $(function() {
                             value: item.value
                         };
                     }));
-                }
             });
         },
         minLength: '.$min_length.

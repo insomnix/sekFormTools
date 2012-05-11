@@ -1,3 +1,9 @@
+sekFormTools 0.0.2
+====================================
+- Moved theme packages from css folder
+to a themes folder
+- Added spellchecker to package
+
 sekFormTools 0.0.1
 ====================================
 - Addon Created

@@ -38,6 +38,7 @@ class sekFormTools {
             'chunksPath' => $basePath.'elements/chunks/',
             'jsUrl' => $assetsUrl.'js/',
             'cssUrl' => $assetsUrl.'css/',
+            'themesUrl' => $assetsUrl.'themes/',
             'assetsUrl' => $assetsUrl,
             'connectorUrl' => $assetsUrl.'connector.php',
         ),$config);
@@ -82,12 +83,13 @@ class sekFormTools {
     public function loadSettings($loadjquery,$theme,$customcss){
         $jsUrl = $this->config['jsUrl'].'web/';
         $cssUrl = $this->config['cssUrl'].'web/';
+        $themesUrl = $this->config['themesUrl'];
 
         $loadjquery = ($loadjquery>'')?$loadjquery:$this->modx->getOption('sekformtools.load_jquery',null,1);
         $theme = ($theme>'')?$theme:($this->modx->getOption('sekformtools.theme')>'')?$this->modx->getOption('sekformtools.theme'):'smoothness';
         $customcss = ($customcss>'')?$customcss:($this->modx->getOption('sekformtools.customcss')>'')?$this->modx->getOption('sekformtools.customcss'):$cssUrl.'sekformtools.css';
 
-        $this->modx->regClientCSS($cssUrl.$theme.'/jquery-ui-1.8.18.custom.css');
+        $this->modx->regClientCSS($themesUrl.$theme.'/jquery-ui-1.8.18.custom.css');
         $this->modx->regClientCSS($customcss);
         if($loadjquery == 1){
             $this->modx->regClientStartupScript($jsUrl.'libs/jquery-1.7.1.min.js');

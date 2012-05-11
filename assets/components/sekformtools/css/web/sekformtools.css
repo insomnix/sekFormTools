@@ -11,7 +11,7 @@
 .ui-button-icon-only .ui-button-text { padding: 0.32em; }
 
 .ui-widget-content { margin: 0; padding: 0.38em 0 0.37em 0.45em; }
-.ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
+.ui-autocomplete-loading { background: white url('../../images/ui-anim_basic_16x16.gif') right center no-repeat; }
 .ui-autocomplete {
     max-height: 350px;
     overflow-y: auto;

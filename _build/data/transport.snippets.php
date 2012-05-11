@@ -74,4 +74,12 @@ $snippets[6]->fromArray(array(
     'snippet' => getSnippetContent($sources['elements'].'snippets/snippet.helper.filter.php'),
 ),'',true,true);
 
+$snippets[7]= $modx->newObject('modSnippet');
+$snippets[7]->fromArray(array(
+    'id' => 7,
+    'name' => 'spellchecker',
+    'description' => 'Add a spell checker to all text areas of a form.',
+    'snippet' => getSnippetContent($sources['elements'].'snippets/snippet.spellchecker.php'),
+),'',true,true);
+
 return $snippets;
