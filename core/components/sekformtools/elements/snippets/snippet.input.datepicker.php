@@ -40,19 +40,19 @@ $animation = $modx->getOption('animation',$scriptProperties,'');
 
 $options = '';
 if($menu == '1'){
-    $options = ' changeMonth: true , changeYear: true ,';
+    $options .= ' changeMonth: true , changeYear: true ,';
 }
 if($date_format>''){
-    $options = ' dateFormat: \''.$date_format.'\' ,';
+    $options .= ' dateFormat: \''.$date_format.'\' ,';
 }
 if($min_date>''){
-    $options = ' minDate: \''.$min_date.'\' ,';
+    $options .= ' minDate: \''.$min_date.'\' ,';
 }
 if($max_date>''){
-    $options = ' maxDate: \''.$max_date.'\' ,';
+    $options .= ' maxDate: \''.$max_date.'\' ,';
 }
 if($animation>''){
-    $options = ' showAnim: \''.$animation.'\' ,';
+    $options .= ' showAnim: \''.$animation.'\' ,';
 }
 
 if($options>''){

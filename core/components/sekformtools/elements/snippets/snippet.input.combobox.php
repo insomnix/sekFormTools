@@ -46,10 +46,10 @@ $fltfield = '';
 $fltvalue = '';
 if($filter > '') {
     $filterArray = $modx->fromJSON($filter);
-    $fltinputid = $filterArray["input_id"];
-    $fltname = $filterArray["name"];
-    $fltfield = $filterArray["field"];
-    $fltvalue = $filterArray["value"];
+    $fltinputid = (array_key_exists("input_id", $filterArray))?$filterArray["input_id"]:'';
+    $fltname = (array_key_exists("name", $filterArray))?$filterArray["name"]:'';
+    $fltfield = (array_key_exists("field", $filterArray))?$filterArray["field"]:'';
+    $fltvalue = (array_key_exists("value", $filterArray))?$filterArray["value"]:'';
 }
 
 $objname = '';
@@ -65,36 +65,38 @@ if($object > '') {
 }
 
 $modx->regClientScript($jsUrl.'ui.combobox.'.$type.'.js');
-$helper_url = html_entity_decode($modx->makeUrl($modx->getOption('sekformtools.helper_resource_id'),'',array(
-    'hs' => $helper_snippet
-    ,'objname' => $objname
-    ,'objsortby' => $objsortby
-    ,'objvalue' => $objvalue
-    ,'objlabel' => $objlabel
-    ,'fltname' => $fltname
-    ,'fltfield' => $fltfield
-)));
-$jscript = ( $filter ) ? '
-    $( "#'.$fltinputid.'" ).combobox({
-        selected: function(e, ui) {
-            $("#ui-'.$input_id.'").addClass( "ui-autocomplete-loading" );
-            $("#ui-'.$input_id.'").prop("disabled", true);
-            $("#ui-'.$input_id.'").val("");
-            $("#'.$input_id.'").find("option").remove()
-            $.getJSON("'.$helper_url.'&fltvalue="+ui.item.value, function(result) {
-                $.each(result, function(key, item) {
-                    $("#'.$input_id.'")
-                        .append($("<option></option>")
-                        .attr("value",item.value)
-                        .text(item.label));
+$jscript = '';
+if ( $fltinputid > '' && $fltname > '' && $fltfield > '' && $fltvalue > '' ){
+    $helper_url = html_entity_decode($modx->makeUrl($modx->getOption('sekformtools.helper_resource_id'),'',array(
+        'hs' => $helper_snippet
+        ,'objname' => $objname
+        ,'objsortby' => $objsortby
+        ,'objvalue' => $objvalue
+        ,'objlabel' => $objlabel
+        ,'fltname' => $fltname
+        ,'fltfield' => $fltfield
+    )));
+    $jscript = ( $filter ) ? '
+        $( "#'.$fltinputid.'" ).combobox({
+            selected: function(e, ui) {
+                $("#ui-'.$input_id.'").addClass( "ui-autocomplete-loading" );
+                $("#ui-'.$input_id.'").prop("disabled", true);
+                $("#ui-'.$input_id.'").val("");
+                $("#'.$input_id.'").find("option").remove()
+                $.getJSON("'.$helper_url.'&fltvalue="+ui.item.value, function(result) {
+                    $.each(result, function(key, item) {
+                        $("#'.$input_id.'")
+                            .append($("<option></option>")
+                            .attr("value",item.value)
+                            .text(item.label));
+                    });
                 });
-            });
-            $("#ui-'.$input_id.'").prop("disabled", false);
-            $("#ui-'.$input_id.'").removeClass( "ui-autocomplete-loading" );
-        }
-    });
-' : '';
-
+                $("#ui-'.$input_id.'").prop("disabled", false);
+                $("#ui-'.$input_id.'").removeClass( "ui-autocomplete-loading" );
+            }
+        });
+    ' : '';
+}
 $jscript = '<script>
 	$(function() {
         $( "#'.$input_id.'" ).combobox();

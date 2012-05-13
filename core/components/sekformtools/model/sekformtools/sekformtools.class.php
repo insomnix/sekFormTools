@@ -94,6 +94,6 @@ class sekFormTools {
         if($loadjquery == 1){
             $this->modx->regClientStartupScript($jsUrl.'libs/jquery-1.7.1.min.js');
         }
-        $this->modx->regClientStartupScript($jsUrl.'libs/jquery-ui-1.8.18.custom.min.js');
+        $this->modx->regClientScript($jsUrl.'libs/jquery-ui-1.8.18.custom.min.js');
     }
 }
