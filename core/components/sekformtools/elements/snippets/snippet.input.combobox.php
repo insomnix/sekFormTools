@@ -46,22 +46,24 @@ $fltfield = '';
 $fltvalue = '';
 if($filter > '') {
     $filterArray = $modx->fromJSON($filter);
-    $fltinputid = (array_key_exists("input_id", $filterArray))?$filterArray["input_id"]:'';
-    $fltname = (array_key_exists("name", $filterArray))?$filterArray["name"]:'';
-    $fltfield = (array_key_exists("field", $filterArray))?$filterArray["field"]:'';
-    $fltvalue = (array_key_exists("value", $filterArray))?$filterArray["value"]:'';
+    $fltinputid = isset($filterArray["input_id"])?$filterArray['input_id']:'';
+    $fltname = isset($filterArray["name"])?$filterArray['name']:'';
+    $fltfield = isset($filterArray["field"])?$filterArray['field']:'';
+    $fltvalue = isset($filterArray["value"])?$filterArray['value']:'';
 }
 
 $objname = '';
 $objsortby = '';
+$objgroupby = '';
 $objvalue =  '';
 $objlabel =  '';
 if($object > '') {
     $objectArray = $modx->fromJSON($object);
-    $objname = $objectArray['name'];
-    $objsortby = $objectArray['sortby'];
-    $objvalue = $objectArray['value'];
-    $objlabel = $objectArray['label'];
+    $objname = isset($objectArray['name'])?$objectArray['name']:'';
+    $objsortby = isset($objectArray['sortby'])?$objectArray['sortby']:'';
+    $objgroupby = isset($objectArray['groupby'])?$objectArray['groupby']:'';
+    $objvalue = isset($objectArray['value'])?$objectArray['value']:'';
+    $objlabel = isset($objectArray['label'])?$objectArray['label']:'';
 }
 
 $modx->regClientScript($jsUrl.'ui.combobox.'.$type.'.js');
@@ -71,6 +73,7 @@ if ( $fltinputid > '' && $fltname > '' && $fltfield > '' && $fltvalue > '' ){
         'hs' => $helper_snippet
         ,'objname' => $objname
         ,'objsortby' => $objsortby
+        ,'objgroupby' => $objgroupby
         ,'objvalue' => $objvalue
         ,'objlabel' => $objlabel
         ,'fltname' => $fltname
@@ -104,12 +107,24 @@ $jscript = '<script>
 	</script>';
 $modx->regClientScript($jscript);
 
-$itemComboList = '<option value="">Select one...</option>';
+$itemComboList = '';// '<option value="">Select one...</option>';
 $itemsArray = array();
+
+if($value_list > '') {
+    $itemsArray = $modx->fromJSON($value_list);
+    foreach ($itemsArray as $item) {
+        $selected = ($item['value']==$value)?' selected="selected"':'';
+        $itemComboList .= '<option value="'.$item['value'].'"'.$selected.'>'.$item['label'].'</option>';
+    }
+}
+
 if($object > '') {
     $c = $modx->newQuery($objname);
     if($objsortby > ''){
         $c->sortby($objsortby,'ASC');
+    }
+    if($objgroupby > ''){
+        $c->groupby($objgroupby);
     }
 
     if($fltname > '' && $fltfield > '' && $fltvalue > '') {
@@ -134,13 +149,12 @@ if($object > '') {
         if ($modx->getObject('modSnippet',array('name' => $snippet))) {
             $itemsArray = $modx->fromJSON($modx->runSnippet($snippet));
         }
-    }elseif($value_list > '') {
-        $itemsArray = $modx->fromJSON($value_list);
+        foreach ($itemsArray as $item) {
+            $selected = ($item['value']==$value)?' selected="selected"':'';
+            $itemComboList .= '<option value="'.$item['value'].'"'.$selected.'>'.$item['label'].'</option>';
+        }
     }
-    foreach ($itemsArray as $item) {
-        $selected = ($item['value']==$value)?' selected="selected"':'';
-        $itemComboList .= '<option value="'.$item['value'].'"'.$selected.'>'.$item['label'].'</option>';
-    }
+
 }
 
 $link_template =  $sekformtools->getChunk($tplContainer, array(

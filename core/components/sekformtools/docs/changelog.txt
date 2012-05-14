@@ -1,3 +1,10 @@
+sekFormTools 0.0.4
+====================================
+- Added groupby to object array
+- Added isset to array check
+- Added method with combobox to add
+items with valuelist and object calls
+
 sekFormTools 0.0.3
 ====================================
 - Fixed datepicker options

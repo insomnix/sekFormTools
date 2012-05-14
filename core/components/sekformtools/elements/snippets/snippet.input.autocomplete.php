@@ -45,28 +45,31 @@ $fltfield = '';
 $fltvalue = '';
 if($filter > '') {
     $filterArray = $modx->fromJSON($filter);
-    $fltinputid = $filterArray["input_id"];
-    $fltname = $filterArray["name"];
-    $fltfield = $filterArray["field"];
-    $fltvalue = $filterArray["value"];
+    $fltinputid = isset($filterArray["input_id"])?$filterArray['input_id']:'';
+    $fltname = isset($filterArray["name"])?$filterArray['name']:'';
+    $fltfield = isset($filterArray["field"])?$filterArray['field']:'';
+    $fltvalue = isset($filterArray["value"])?$filterArray['value']:'';
 }
 
 $objname = '';
 $objsortby = '';
+$objgroupby = '';
 $objvalue =  '';
 $objlabel =  '';
 if($object > '') {
     $objectArray = $modx->fromJSON($object);
-    $objname = $objectArray['name'];
-    $objsortby = $objectArray['sortby'];
-    $objvalue = $objectArray['value'];
-    $objlabel = $objectArray['label'];
+    $objname = isset($objectArray['name'])?$objectArray['name']:'';
+    $objsortby = isset($objectArray['sortby'])?$objectArray['sortby']:'';
+    $objgroupby = isset($objectArray['groupby'])?$objectArray['groupby']:'';
+    $objvalue = isset($objectArray['value'])?$objectArray['value']:'';
+    $objlabel = isset($objectArray['label'])?$objectArray['label']:'';
 }
 
 $helper_url = html_entity_decode($modx->makeUrl($modx->getOption('sekformtools.helper_resource_id'),'',array(
     'hs' => $helper_snippet
     ,'objname' => $objname
     ,'objsortby' => $objsortby
+    ,'objgroupby' => $objgroupby
     ,'objvalue' => $objvalue
     ,'objlabel' => $objlabel
 )));

@@ -22,18 +22,22 @@
 $sekformtools = $modx->getService('sekformtools','sekFormTools',$modx->getOption('sekformtools.core_path',null,$modx->getOption('core_path').'components/sekformtools/').'model/sekformtools/',$scriptProperties);
 if (!($sekformtools instanceof sekFormTools)) return '';
 
-$objname = $_REQUEST['objname'];
-$objsortby = $_REQUEST['objsortby'];
-$objvalue = $_REQUEST['objvalue'];
-$objlabel = $_REQUEST['objlabel'];
-$fltname = $_REQUEST['fltname'];
-$fltfield = $_REQUEST['fltfield'];
-$fltvalue = $_REQUEST['fltvalue'];
-$term = $_REQUEST['term'];
+$objname = isset($_REQUEST['objname'])?$_REQUEST['objname']:'';
+$objsortby = isset($_REQUEST['objsortby'])?$_REQUEST['objsortby']:'';
+$objsortby = isset($_REQUEST['objgroupby'])?$_REQUEST['objgroupby']:'';
+$objvalue = isset($_REQUEST['objvalue'])?$_REQUEST['objvalue']:'';
+$objlabel = isset($_REQUEST['objlabel'])?$_REQUEST['objlabel']:'';
+$fltname = isset($_REQUEST['fltname'])?$_REQUEST['fltname']:'';
+$fltfield = isset($_REQUEST['fltfield'])?$_REQUEST['fltfield']:'';
+$fltvalue = isset($_REQUEST['fltvalue'])?$_REQUEST['fltvalue']:'';
+$term = isset($_REQUEST['term'])?$_REQUEST['term']:'';
 
 $c = $modx->newQuery($objname);
 if($objsortby > ''){
     $c->sortby($objsortby,'ASC');
+}
+if($objgroupby > ''){
+    $c->groupby($objgroupby);
 }
 if($term > ''){
     $c->where(array(
