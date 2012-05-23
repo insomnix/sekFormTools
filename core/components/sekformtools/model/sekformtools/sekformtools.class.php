@@ -89,11 +89,11 @@ class sekFormTools {
         $theme = ($theme>'')?$theme:($this->modx->getOption('sekformtools.theme')>'')?$this->modx->getOption('sekformtools.theme'):'smoothness';
         $customcss = ($customcss>'')?$customcss:($this->modx->getOption('sekformtools.customcss')>'')?$this->modx->getOption('sekformtools.customcss'):$cssUrl.'sekformtools.css';
 
-        $this->modx->regClientCSS($themesUrl.$theme.'/jquery-ui-1.8.18.custom.css');
+        $this->modx->regClientCSS($themesUrl.$theme.'/jquery-ui-1.8.20.custom.css');
         $this->modx->regClientCSS($customcss);
         if($loadjquery == 1){
-            $this->modx->regClientStartupScript($jsUrl.'libs/jquery-1.7.1.min.js');
+            $this->modx->regClientStartupScript($jsUrl.'libs/jquery-1.7.2.min.js');
         }
-        $this->modx->regClientScript($jsUrl.'libs/jquery-ui-1.8.18.custom.min.js');
+        $this->modx->regClientScript($jsUrl.'libs/jquery-ui-1.8.20.custom.min.js');
     }
 }

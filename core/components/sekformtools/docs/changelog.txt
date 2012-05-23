@@ -1,3 +1,9 @@
+sekFormTools 0.0.5
+====================================
+- Updated to Jquery 1.7.2
+- Updated to Jquery ui 1.8.2
+- Added Humanity theme
+
 sekFormTools 0.0.4
 ====================================
 - Added groupby to object array
